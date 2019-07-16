@@ -1,16 +1,20 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
-#include "snake.h"
+#include "enums.h"
 
 class Controller {
  public:
-  void HandleInput(bool &running, Snake &snake) const;
+  void HandleInput() const;
 
  private:
-  void ChangeDirection(Snake &snake, 
-                       Snake::Direction input,
-                       Snake::Direction opposite) const;
+  void setBlockHorizontalSpeed() const;
+  void rotateBlock() const;
+  void speedUpBlockVertical(bool flag) const;
+  void pauseGame() const;
+  void resumeGame() const;
+  void quitGame() const;
+
 };
 
 #endif
