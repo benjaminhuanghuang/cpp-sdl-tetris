@@ -18,7 +18,7 @@ Renderer::Renderer(const std::size_t screen_width,
   }
 
   // Create Window
-  sdl_window = SDL_CreateWindow("Snake Game", SDL_WINDOWPOS_CENTERED,
+  sdl_window = SDL_CreateWindow("Tetris Game", SDL_WINDOWPOS_CENTERED,
                                 SDL_WINDOWPOS_CENTERED, screen_width,
                                 screen_height, SDL_WINDOW_SHOWN);
 

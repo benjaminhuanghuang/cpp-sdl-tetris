@@ -10,7 +10,7 @@ void Controller::HandleInput() const
   {
     if (e.type == SDL_QUIT)
     {
-      quitGame();
+      //game.Quit();
     }
     else if (e.type == SDL_KEYUP)
     {

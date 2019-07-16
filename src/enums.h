@@ -1,3 +1,13 @@
+#ifndef ENUMS_H
+#define ENUMS_H
+
+enum class GameStatus
+{
+	RUNNING,
+	PAUSED,
+	QUIT
+};
+
 // Block types
 enum class BlockTypes
 {
@@ -18,3 +28,4 @@ enum class Directions
 	DOWN,
 	NONE
 };
+#endif
