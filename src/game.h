@@ -17,10 +17,19 @@ public:
            std::size_t target_frame_duration);
 
   int GetScore() const;
+  
+  void Start();
+  void Pause();
+  void Resume();
   void Quit();
+  
+  void SetBlockHorizontalSpeed();
+  void RotateBlock();
+  void SpeedUpBlockVertical(bool flag);
   
 private:
   GameStatus gameStatus{GameStatus::PAUSED};
+  
 
   std::random_device dev;
   // random number generator

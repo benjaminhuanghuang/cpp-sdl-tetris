@@ -3,6 +3,8 @@
 
 #include <vector>
 #include "SDL.h"
+// forward declarations to avoid include cycles
+class Game;
 
 class Renderer {
  public:
@@ -13,7 +15,7 @@ class Renderer {
            
   ~Renderer();
 
-  void Render();
+  void Render(Game& game);
   void UpdateWindowTitle(int fps);
 
  private:

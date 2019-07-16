@@ -1,8 +1,9 @@
 #include "controller.h"
+#include "game.h"
 #include <iostream>
 #include "SDL.h"
 
-void Controller::HandleInput() const
+void Controller::HandleInput(Game &game) const
 {
   SDL_Event e;
 
@@ -10,7 +11,7 @@ void Controller::HandleInput() const
   {
     if (e.type == SDL_QUIT)
     {
-      //game.Quit();
+      game.Quit();
     }
     else if (e.type == SDL_KEYUP)
     {
@@ -26,7 +27,7 @@ void Controller::HandleInput() const
         break;
       }
     }
-     else if (e.type == SDL_KEYDOWN)
+    else if (e.type == SDL_KEYDOWN)
     {
       switch (e.key.keysym.sym)
       {
@@ -44,29 +45,3 @@ void Controller::HandleInput() const
   }
 }
 
-void Controller::setBlockHorizontalSpeed() const
-{
-  return;
-}
-
-void Controller::rotateBlock() const
-{
-  return;
-}
-void Controller::speedUpBlockVertical(bool flag) const
-{
-  return;
-}
-void Controller::pauseGame() const
-{
-  return;
-}
-void Controller::resumeGame() const
-{
-  return;
-}
-
-void Controller::quitGame() const
-{
-  return;
-}
