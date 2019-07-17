@@ -28,4 +28,11 @@ enum class Directions
 	DOWN,
 	NONE
 };
+
+enum BlockColors{
+	Blue,
+	Orange,
+	Gray,
+	Green
+}
 #endif

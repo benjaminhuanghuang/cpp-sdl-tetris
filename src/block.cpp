@@ -1,40 +1,202 @@
-#ifndef SNAKE_H
-#define SNAKE_H
+#include "block.h"
+#include "constants.h"
 
-#include <vector>
-#include "SDL.h"
 
-class Snake {
- public:
-  enum class Direction { kUp, kDown, kLeft, kRight };
 
-  Snake(int grid_width, int grid_height)
-      : grid_width(grid_width),
-        grid_height(grid_height),
-        head_x(grid_width / 2),
-        head_y(grid_height / 2) {}
+Block::Block(int center_x, int center_y, BlockTypes type, BlockColors color):
+	type(type), color(color)
+{
+	this->center_x = center_x;
+	this->center_y = center_y;
+	
+	for (int i=0; i<4; ++i)
+	{
+		squares[i] = nullptr;
+	}
 
-  void Update();
+	SetupBlock(center_x, center_y, color);
+}
 
-  void GrowBody();
-  bool SnakeCell(int x, int y);
+Block::Block(BlockTypes type, BlockColors color):
+	type(type), color(color)
+{
+	center_x = 0;
+	center_y = 0;
+	
+	for (int i=0; i<4; ++i)
+	{
+		squares[i] = nullptr;
+	}
+}
 
-  Direction direction = Direction::kUp;
+void Block::SetupBlock(int x, int y, BlockColors color)
+{
+	center_x = x;
+	center_y = y;
+	
+	for (int i=0; i<4; ++i)
+	{
+		if (squares[i] != nullptr)
+		{
+			delete squares[i];
+			squares[i] = nullptr;
+		}
+	}
 
-  float speed{0.1f};
-  int size{1};
-  bool alive{true};
-  float head_x;
-  float head_y;
-  std::vector<SDL_Point> body;
+	switch (type)
+	{
+	case BlockTypes::SQUARE_BLOCK:			
+		{
+			squares[0] = new Square(x - SQUARES_MEDIAN, y - SQUARES_MEDIAN, texture);
+			squares[1] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN, texture);
+			squares[2] = new Square(x + SQUARES_MEDIAN, y - SQUARES_MEDIAN, texture);
+			squares[3] = new Square(x + SQUARES_MEDIAN, y + SQUARES_MEDIAN, texture);
+		}
+		break;
+	case BlockTypes::T_BLOCK:				// T��
+		{
+			squares[0] = new Square(x - SQUARES_MEDIAN, y - SQUARES_MEDIAN, texture);
+			squares[1] = new Square(x + SQUARES_MEDIAN, y + SQUARES_MEDIAN, texture);
+			squares[2] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN, texture);
+			squares[3] = new Square(x - SQUARES_MEDIAN * 3, y + SQUARES_MEDIAN, texture);
+		}
+		break;
+	case BlockTypes::L_BLOCK:				
+		{
+			squares[0] = new Square(x - SQUARES_MEDIAN, y - SQUARES_MEDIAN, texture);
+			squares[1] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN, texture);
+			squares[2] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN * 3, texture);
+			squares[3] = new Square(x + SQUARES_MEDIAN, y + SQUARES_MEDIAN * 3, texture);
+		}
+		break;
+	case BlockTypes::BACKWARDS_L_BLOCK:		
+		{
+			squares[0] = new Square(x + SQUARES_MEDIAN, y - SQUARES_MEDIAN, texture);
+			squares[1] = new Square(x - SQUARES_MEDIAN, y - SQUARES_MEDIAN, texture);
+			squares[2] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN, texture);
+			squares[3] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN * 3, texture);
+		}
+		break;
+	case BlockTypes::STRAIGHT_BLOCK:		
+		{
+			squares[0] = new Square(x + SQUARES_MEDIAN, y - SQUARES_MEDIAN * 3, texture);
+			squares[1] = new Square(x + SQUARES_MEDIAN, y - SQUARES_MEDIAN, texture);
+			squares[2] = new Square(x + SQUARES_MEDIAN, y + SQUARES_MEDIAN, texture);
+			squares[3] = new Square(x + SQUARES_MEDIAN, y + SQUARES_MEDIAN * 3, texture);
+		}
+		break;
+	case BlockTypes::S_BLOCK:			
+		{
+			squares[0] = new Square(x - SQUARES_MEDIAN, y - SQUARES_MEDIAN, texture);
+			squares[1] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN, texture);
+			squares[2] = new Square(x + SQUARES_MEDIAN, y + SQUARES_MEDIAN, texture);
+			squares[3] = new Square(x + SQUARES_MEDIAN, y + SQUARES_MEDIAN * 3, texture);
+		}
+		break;
+	case BlockTypes::BACKWARDS_S_BLOCK:		
+		{
+			squares[0] = new Square(x + SQUARES_MEDIAN, y - SQUARES_MEDIAN, texture);
+			squares[1] = new Square(x + SQUARES_MEDIAN, y + SQUARES_MEDIAN, texture);
+			squares[2] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN, texture);
+			squares[3] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN * 3, texture);
+		}
+		break;
+	default:
+		break;
+	}
+}
 
- private:
-  void UpdateHead();
-  void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell);
+void Block::DrawSquares(SDL_Renderer* renderer)
+{
+	for (int i=0; i<4; ++i)
+	{
+		squares[i]->Draw(renderer);
+	}
+}
 
-  bool growing{false};
-  int grid_width;
-  int grid_height;
-};
+void Block::Move(Directions dir)
+{
+	switch (dir)
+	{
+	case Directions::LEFT:
+		center_x -= SQUARES_SIZE;
+		break;
+	case Directions::RIGHT:
+		center_x += SQUARES_SIZE;
+		break;
+	case Directions::DOWN:
+		center_y += SQUARES_SIZE;
+		break;
+	default:
+		break;
+	}
 
-#endif
+	for (int i=0; i<4; ++i)
+	{
+		squares[i]->Move(dir);
+	}
+}
+
+void Block::Rotate()
+{
+	for (int i=0; i<4; ++i)
+	{
+		int x = squares[i]->getCenter_x();
+		int y = squares[i]->getCenter_y();
+		
+		x -= center_x;
+		y -= center_y;
+
+		int x2 = -y;
+		int y2 = x;
+
+		x2 += center_x;
+		y2 += center_y;
+
+		squares[i]->setCenter_x(x2);
+		squares[i]->setCenter_y(y2);
+	}
+}
+
+int* Block::GetRotatedPositions()
+{
+	int* SquaresPositions = new int[8];
+
+	for (int i=0; i<4; ++i)
+	{
+		int x = squares[i]->getCenter_x();
+		int y = squares[i]->getCenter_y();
+		
+		x -= center_x;
+		y -= center_y;
+
+		int x2 = -y;
+		int y2 = x;
+
+		x2 += center_x;
+		y2 += center_y;
+
+		SquaresPositions[i*2] = x2;
+		SquaresPositions[i*2+1] = y2;
+	}
+	return SquaresPositions;
+}
+
+Square** Block::GetSquares()
+{
+	return squares;
+}
+
+BlockTypes Block::getBlockType() const
+{
+	return type;
+}
+
+Block::~Block(void)
+{
+	for (int i=0; i<4; ++i)
+	{
+		if (squares[i])
+			delete squares[i];
+	}
+}
