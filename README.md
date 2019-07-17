@@ -28,4 +28,6 @@ This is a starter repo for the Capstone project in the [Udacity C++ Nanodegree P
 ## Install SDL2 on Mac
 ```
 brew install sdl2
+brew install sdl_ttf
+brew install sdl_image
 ```

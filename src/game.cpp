@@ -1,6 +1,6 @@
-#include "game.h"
 #include <iostream>
 #include "SDL.h"
+#include "game.h"
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
     : engine(dev()),
@@ -24,7 +24,7 @@ void Game::Run(Controller const &controller,
   while (gameStatus != GameStatus::QUIT)
   {
     // Print game status
-    std::cout << "Game status: " << static_cast<std::underlying_type<GameStatus>::type>(gameStatus) << std::endl;
+    //std::cout << "Game status: " << static_cast<std::underlying_type<GameStatus>::type>(gameStatus) << std::endl;
 
     frame_start = SDL_GetTicks();
 
@@ -94,3 +94,5 @@ void Game::Quit()
 }
 
 int Game::GetScore() const { return score; }
+
+int Game::GetLevel() const { return level; }
