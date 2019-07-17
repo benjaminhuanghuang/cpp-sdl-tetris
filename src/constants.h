@@ -10,7 +10,7 @@ define constants
 // Game area
 #define GAME_AREA_LEFT		0				 
 #define GAME_AREA_RIGHT		612				
-#define GAME_AREA_BOTTOM	714				
+#define GAME_AREA_BOTTOM	WINDOW_HEIGHT				
 #define SQUARES_PER_ROW		18				// how many cells per row
 #define SQUARES_PER_COL		21				// how many cells per col
 #define SQUARES_SIZE		  34				// 
@@ -33,6 +33,9 @@ define constants
 #define NEXT_BLOCK_Y		140
 
 // Location for drawing the game status
+#define SCORE_AREA_LEFT		GAME_AREA_RIGHT				 
+#define SCORE_AREA_RIGHT	WINDOW_WIDTH				
+#define SCORE_AREA_BOTTOM	WINDOW_HEIGHT				
 #define SCORE_POSITION_X	(612+60)		
 #define SCORE_POSITION_Y	(65+180)
 #define LEVEL_POSITION_X	(612+60)		

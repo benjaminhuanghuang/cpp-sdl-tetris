@@ -34,6 +34,13 @@ Renderer::Renderer(const std::size_t screen_width,
     std::cerr << "Failed to load lazy font! SDL_ttf Error: " << TTF_GetError() << std::endl;
   }
 
+  // Init image
+  int imgFlags = IMG_INIT_PNG;
+  if (!(IMG_Init(imgFlags) & imgFlags))
+  {
+    printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
+  }
+
   // Create Window
   sdl_window = SDL_CreateWindow("Tetris Game", SDL_WINDOWPOS_CENTERED,
                                 SDL_WINDOWPOS_CENTERED, screen_width,
@@ -53,14 +60,7 @@ Renderer::Renderer(const std::size_t screen_width,
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
 
-  // Init image
-  int imgFlags = IMG_INIT_PNG;
-  if (!(IMG_Init(imgFlags) & imgFlags))
-  {
-    printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
-  }
-
-  bg_game_area = loadTexture("res/bg1.png");   // need sdl_render
+  bg_game_area = load_texture("res/bg1.png");   // need sdl_render
 }
 
 Renderer::~Renderer()
@@ -90,10 +90,7 @@ void Renderer::Render(Game &game)
   SDL_RenderClear(sdl_renderer);
 
   // Render game area
-  draw_gamearea_background();
-
-  // Render information area
-  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+  draw_game_area_background();
 
   // Render current Block and next block
   // CurrentBlock->DrawSquares(renderer);
@@ -105,6 +102,9 @@ void Renderer::Render(Game &game)
   // 	GameSquares[i]->DrawToRenderer(renderer);
   // }
 
+  // Render score area
+  draw_score_area_background();
+  
   //-- Render infromation
   draw_text("NEXT SQUARE:", NEXT_BLOCK_X - 95, (NEXT_BLOCK_Y - 115));
 
@@ -141,7 +141,7 @@ void Renderer::draw_text(std::string message, int x, int y)
   SDL_RenderCopy(sdl_renderer, texture, NULL, &rect);
 }
 
-SDL_Texture* Renderer::loadTexture( std::string path )
+SDL_Texture* Renderer::load_texture( std::string path )
 {
     //The final texture
     SDL_Texture* newTexture = NULL;
@@ -176,14 +176,19 @@ void Renderer::draw_rectangle(int x, int y, int width, int height)
   rect.w = width;
   rect.h = height;
 
-  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF); // orange
-
   SDL_RenderFillRect(sdl_renderer, &rect);
 }
 
-void Renderer::draw_gamearea_background()
+void Renderer::draw_game_area_background()
 {
   draw_image(0, 0, bg_game_area);
+}
+
+void Renderer::draw_score_area_background()
+{
+  // SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF); // orange
+  SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0x00, 0xFF, 0xFF);
+  draw_rectangle(SCORE_AREA_LEFT, 0, SCORE_AREA_BOTTOM, SCORE_AREA_RIGHT);
 }
 
 void Renderer::draw_image(int x, int y, SDL_Texture* image)

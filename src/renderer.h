@@ -28,13 +28,13 @@ class Renderer {
   SDL_Texture* bg_game_area;	
 	
   void draw_text(std::string message, int x, int y);
-  
+
   void draw_rectangle(int x, int y, int width, int height);
 
-  SDL_Texture* loadTexture( std::string path );
+  SDL_Texture* load_texture( std::string path );
   void draw_image(int x, int y, SDL_Texture* image);
-  void draw_gamearea_background();
-
+  void draw_game_area_background();
+  void draw_score_area_background();
 
   const std::size_t screen_width;
   const std::size_t screen_height;
