@@ -47,58 +47,58 @@ void Block::SetupBlock(int x, int y, BlockColors color)
 	{
 	case BlockTypes::SQUARE_BLOCK:			
 		{
-			squares[0] = new Square(x - SQUARES_MEDIAN, y - SQUARES_MEDIAN, texture);
-			squares[1] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN, texture);
-			squares[2] = new Square(x + SQUARES_MEDIAN, y - SQUARES_MEDIAN, texture);
-			squares[3] = new Square(x + SQUARES_MEDIAN, y + SQUARES_MEDIAN, texture);
+			squares[0] = new Square(x - SQUARES_MEDIAN, y - SQUARES_MEDIAN, color);
+			squares[1] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN, color);
+			squares[2] = new Square(x + SQUARES_MEDIAN, y - SQUARES_MEDIAN, color);
+			squares[3] = new Square(x + SQUARES_MEDIAN, y + SQUARES_MEDIAN, color);
 		}
 		break;
-	case BlockTypes::T_BLOCK:				// T��
+	case BlockTypes::T_BLOCK:				
 		{
-			squares[0] = new Square(x - SQUARES_MEDIAN, y - SQUARES_MEDIAN, texture);
-			squares[1] = new Square(x + SQUARES_MEDIAN, y + SQUARES_MEDIAN, texture);
-			squares[2] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN, texture);
-			squares[3] = new Square(x - SQUARES_MEDIAN * 3, y + SQUARES_MEDIAN, texture);
+			squares[0] = new Square(x - SQUARES_MEDIAN, y - SQUARES_MEDIAN, color);
+			squares[1] = new Square(x + SQUARES_MEDIAN, y + SQUARES_MEDIAN, color);
+			squares[2] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN, color);
+			squares[3] = new Square(x - SQUARES_MEDIAN * 3, y + SQUARES_MEDIAN, color);
 		}
 		break;
 	case BlockTypes::L_BLOCK:				
 		{
-			squares[0] = new Square(x - SQUARES_MEDIAN, y - SQUARES_MEDIAN, texture);
-			squares[1] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN, texture);
-			squares[2] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN * 3, texture);
-			squares[3] = new Square(x + SQUARES_MEDIAN, y + SQUARES_MEDIAN * 3, texture);
+			squares[0] = new Square(x - SQUARES_MEDIAN, y - SQUARES_MEDIAN, color);
+			squares[1] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN, color);
+			squares[2] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN * 3, color);
+			squares[3] = new Square(x + SQUARES_MEDIAN, y + SQUARES_MEDIAN * 3, color);
 		}
 		break;
 	case BlockTypes::BACKWARDS_L_BLOCK:		
 		{
-			squares[0] = new Square(x + SQUARES_MEDIAN, y - SQUARES_MEDIAN, texture);
-			squares[1] = new Square(x - SQUARES_MEDIAN, y - SQUARES_MEDIAN, texture);
-			squares[2] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN, texture);
-			squares[3] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN * 3, texture);
+			squares[0] = new Square(x + SQUARES_MEDIAN, y - SQUARES_MEDIAN, color);
+			squares[1] = new Square(x - SQUARES_MEDIAN, y - SQUARES_MEDIAN, color);
+			squares[2] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN, color);
+			squares[3] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN * 3, color);
 		}
 		break;
 	case BlockTypes::STRAIGHT_BLOCK:		
 		{
-			squares[0] = new Square(x + SQUARES_MEDIAN, y - SQUARES_MEDIAN * 3, texture);
-			squares[1] = new Square(x + SQUARES_MEDIAN, y - SQUARES_MEDIAN, texture);
-			squares[2] = new Square(x + SQUARES_MEDIAN, y + SQUARES_MEDIAN, texture);
-			squares[3] = new Square(x + SQUARES_MEDIAN, y + SQUARES_MEDIAN * 3, texture);
+			squares[0] = new Square(x + SQUARES_MEDIAN, y - SQUARES_MEDIAN * 3, color);
+			squares[1] = new Square(x + SQUARES_MEDIAN, y - SQUARES_MEDIAN, color);
+			squares[2] = new Square(x + SQUARES_MEDIAN, y + SQUARES_MEDIAN, color);
+			squares[3] = new Square(x + SQUARES_MEDIAN, y + SQUARES_MEDIAN * 3, color);
 		}
 		break;
 	case BlockTypes::S_BLOCK:			
 		{
-			squares[0] = new Square(x - SQUARES_MEDIAN, y - SQUARES_MEDIAN, texture);
-			squares[1] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN, texture);
-			squares[2] = new Square(x + SQUARES_MEDIAN, y + SQUARES_MEDIAN, texture);
-			squares[3] = new Square(x + SQUARES_MEDIAN, y + SQUARES_MEDIAN * 3, texture);
+			squares[0] = new Square(x - SQUARES_MEDIAN, y - SQUARES_MEDIAN, color);
+			squares[1] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN, color);
+			squares[2] = new Square(x + SQUARES_MEDIAN, y + SQUARES_MEDIAN, color);
+			squares[3] = new Square(x + SQUARES_MEDIAN, y + SQUARES_MEDIAN * 3, color);
 		}
 		break;
 	case BlockTypes::BACKWARDS_S_BLOCK:		
 		{
-			squares[0] = new Square(x + SQUARES_MEDIAN, y - SQUARES_MEDIAN, texture);
-			squares[1] = new Square(x + SQUARES_MEDIAN, y + SQUARES_MEDIAN, texture);
-			squares[2] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN, texture);
-			squares[3] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN * 3, texture);
+			squares[0] = new Square(x + SQUARES_MEDIAN, y - SQUARES_MEDIAN, color);
+			squares[1] = new Square(x + SQUARES_MEDIAN, y + SQUARES_MEDIAN, color);
+			squares[2] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN, color);
+			squares[3] = new Square(x - SQUARES_MEDIAN, y + SQUARES_MEDIAN * 3, color);
 		}
 		break;
 	default:
