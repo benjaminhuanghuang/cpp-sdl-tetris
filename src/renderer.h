@@ -26,6 +26,7 @@ class Renderer {
   TTF_Font* font;
   
   void draw_text(std::string message, int x, int y);
+  void draw_rectangle(int x, int y, int width, int height);
 
   const std::size_t screen_width;
   const std::size_t screen_height;

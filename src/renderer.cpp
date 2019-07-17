@@ -86,11 +86,9 @@ void Renderer::Render(Game &game)
   // {
   // 	GameSquares[i]->DrawToRenderer(renderer);
   // }
-
+  
   //-- Render infromation
-  char nex_square[50];
-  sprintf(nex_square, "NEXT SQUARE:");
-  draw_text(nex_square, NEXT_BLOCK_X - 95, (NEXT_BLOCK_Y - 115));
+  draw_text("NEXT SQUARE:", NEXT_BLOCK_X - 95, (NEXT_BLOCK_Y - 115));
 
   char cur_score[50];
   sprintf(cur_score, "CURRENT SCORE: %d", game.GetScore());
@@ -112,14 +110,28 @@ void Renderer::UpdateWindowTitle(int fps)
 void Renderer::draw_text(std::string message, int x, int y)
 {
   SDL_Color color = {255, 255, 255};
-  SDL_Surface *surface = TTF_RenderText_Solid(font, message.c_str(), color);
-  SDL_Texture *texture = SDL_CreateTextureFromSurface(sdl_renderer, surface);
-
+  
+  SDL_Surface* surface = TTF_RenderText_Solid(font, message.c_str(), color);
+  SDL_Texture* texture = SDL_CreateTextureFromSurface(sdl_renderer, surface); 
   SDL_FreeSurface(surface);
 
   int width = 0, height = 0;
   SDL_QueryTexture(texture, NULL, NULL, &width, &height);
   SDL_Rect rect = {x, y, width, height};
+
   // Render to screen
   SDL_RenderCopy(sdl_renderer, texture, NULL, &rect);
+}
+
+void Renderer::draw_rectangle(int x, int y, int width, int height)
+{
+  SDL_Rect block;
+  block.x = x;
+  block.y = y;
+  block.w = width;
+  block.h = height;
+
+  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF); // orange
+
+  SDL_RenderFillRect(sdl_renderer, &block);
 }
