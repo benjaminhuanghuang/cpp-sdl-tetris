@@ -12,7 +12,8 @@
                 "/usr/local/include/io2d",
                 "/usr/local/Cellar/opencv/4.1.0_2/include/opencv4",
                 "/usr/local/Cellar/sdl2/2.0.9_1/include/SDL2",
-                "/usr/local/Cellar/sdl_ttf/2.0.11_1/include/SDL"
+                "/usr/local/Cellar/sdl_ttf/2.0.11_1/include/SDL",
+                "/usr/local/Cellar/sdl2_image/2.0.4/include/SDL2"
             ],
             "defines": [
                 "_DEBUG"

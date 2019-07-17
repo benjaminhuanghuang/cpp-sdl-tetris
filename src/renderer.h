@@ -4,6 +4,7 @@
 #include <vector>
 #include <SDL.h>
 #include <SDL_ttf.h>
+#include <SDL_image.h>
 
 // forward declarations to avoid include cycles
 class Game;
@@ -24,9 +25,16 @@ class Renderer {
   SDL_Window* sdl_window;
   SDL_Renderer* sdl_renderer;
   TTF_Font* font;
-  
+  SDL_Texture* bg_game_area;	
+	
   void draw_text(std::string message, int x, int y);
+  
   void draw_rectangle(int x, int y, int width, int height);
+
+  SDL_Texture* loadTexture( std::string path );
+  void draw_image(int x, int y, SDL_Texture* image);
+  void draw_gamearea_background();
+
 
   const std::size_t screen_width;
   const std::size_t screen_height;
