@@ -13,15 +13,13 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
 
 void Game::Init()
 {
-  // BlockColors color = (BlockColors)(random_color(engine));
-  // BlockTypes type = (BlockTypes)(random_type(engine));
-  // auto b = new Block(BLOCK_START_X, BLOCK_START_Y, type, color);
-	// CurrentBlock = std::make_shared<Block>(b);
+  BlockColors color = (BlockColors)(random_color(engine));
+  BlockTypes type = (BlockTypes)(random_type(engine));
+  CurrentBlock = std::make_shared<Block>(BLOCK_START_X, BLOCK_START_Y, type, color);
 	
-  // color = (BlockColors)(random_color(engine));
-  // type = (BlockTypes)(random_type(engine));
-  // b = new Block(NEXT_BLOCK_X, NEXT_BLOCK_Y, type, color);
-	// NextBlock = std::make_shared<Block>(b);
+  color = (BlockColors)(random_color(engine));
+  type = (BlockTypes)(random_type(engine));
+	NextBlock = std::make_shared<Block>(NEXT_BLOCK_X, NEXT_BLOCK_Y, type, color);
 }
 
 void Game::Run(Controller const &controller,

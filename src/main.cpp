@@ -15,6 +15,7 @@ int main() {
   Game game(kGridWidth, kGridHeight);
   Controller controller;
   
+  game.Init();
   game.Run(controller, renderer, kMsPerFrame);
   
   std::cout << "Game has terminated successfully!\n";
