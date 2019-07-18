@@ -94,10 +94,8 @@ void Renderer::Render(Game &game)
   // Render game area
   draw_game_area_background();
 
-  // Render current Block and next block
   draw_current_block(game);
-  // NextBlock->DrawSquares(renderer);
-
+  
   //-- Render blocks
   // for (int i=0; i<GameSquares.size(); ++i)
   // {
@@ -107,6 +105,8 @@ void Renderer::Render(Game &game)
   // Render score area
   draw_score_area_background();
 
+  draw_next_block(game);
+  
   //-- Render infromation
   draw_text("NEXT SQUARE:", NEXT_BLOCK_X - 95, (NEXT_BLOCK_Y - 115));
 
@@ -222,4 +222,28 @@ void Renderer::draw_current_block(Game &game)
         SQUARES_MEDIAN * 2 - 2};
     SDL_RenderFillRect(sdl_renderer, &rect);
   }
+}
+
+void Renderer::draw_next_block(Game &game)
+{
+  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF); // orange
+
+  std::shared_ptr<Block> block = game.NextBlock;
+  Square **squares = block.get()->GetSquares();
+
+  for (int i = 0; i < 4; ++i)
+  {
+    int center_x = squares[i]->getCenter_x();
+    int center_y = squares[i]->getCenter_y();
+    SDL_Rect rect = {
+        center_x - SQUARES_MEDIAN + 1,
+        center_y - SQUARES_MEDIAN + 1,
+        SQUARES_MEDIAN * 2 - 2,
+        SQUARES_MEDIAN * 2 - 2};
+    SDL_RenderFillRect(sdl_renderer, &rect);
+  }
+}
+void Renderer::set_color(BlockColors color)
+{
+
 }

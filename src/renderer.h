@@ -37,7 +37,10 @@ class Renderer {
   void draw_game_area_background();
   void draw_score_area_background();
   void draw_current_block(Game &game);
+  void draw_next_block(Game &game);
   void draw_square(int center_x, int center_y, BlockColors color);
+  void set_color(BlockColors color);
+  
 
   const std::size_t screen_width;
   const std::size_t screen_height;

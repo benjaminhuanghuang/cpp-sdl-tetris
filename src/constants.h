@@ -29,7 +29,7 @@ define constants
 // Block location
 #define BLOCK_START_X 300
 #define BLOCK_START_Y 72
-#define NEXT_BLOCK_X (612 + 155)
+#define NEXT_BLOCK_X (612 + 135)
 #define NEXT_BLOCK_Y 140
 
 // Location for drawing the game status
