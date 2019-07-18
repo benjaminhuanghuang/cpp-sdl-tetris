@@ -5,6 +5,8 @@
 #include "renderer.h"
 #include "constants.h"
 #include "game.h"
+#include "square.h"
+#include "block.h"
 
 Renderer::Renderer(const std::size_t screen_width,
                    const std::size_t screen_height,
@@ -60,7 +62,7 @@ Renderer::Renderer(const std::size_t screen_width,
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
 
-  bg_game_area = load_texture("res/bg1.png");   // need sdl_render
+  bg_game_area = load_texture("res/bg1.png"); // need sdl_render
 }
 
 Renderer::~Renderer()
@@ -93,7 +95,7 @@ void Renderer::Render(Game &game)
   draw_game_area_background();
 
   // Render current Block and next block
-  // CurrentBlock->DrawSquares(renderer);
+  draw_current_block(game);
   // NextBlock->DrawSquares(renderer);
 
   //-- Render blocks
@@ -104,7 +106,7 @@ void Renderer::Render(Game &game)
 
   // Render score area
   draw_score_area_background();
-  
+
   //-- Render infromation
   draw_text("NEXT SQUARE:", NEXT_BLOCK_X - 95, (NEXT_BLOCK_Y - 115));
 
@@ -141,31 +143,31 @@ void Renderer::draw_text(std::string message, int x, int y)
   SDL_RenderCopy(sdl_renderer, texture, NULL, &rect);
 }
 
-SDL_Texture* Renderer::load_texture( std::string path )
+SDL_Texture *Renderer::load_texture(std::string path)
 {
-    //The final texture
-    SDL_Texture* newTexture = NULL;
+  //The final texture
+  SDL_Texture *newTexture = NULL;
 
-    //Load image at specified path
-    SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
-    if( loadedSurface == NULL )
+  //Load image at specified path
+  SDL_Surface *loadedSurface = IMG_Load(path.c_str());
+  if (loadedSurface == NULL)
+  {
+    printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
+  }
+  else
+  {
+    //Create texture from surface pixels
+    newTexture = SDL_CreateTextureFromSurface(sdl_renderer, loadedSurface);
+    if (newTexture == NULL)
     {
-        printf( "Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError() );
-    }
-    else
-    {
-        //Create texture from surface pixels
-        newTexture = SDL_CreateTextureFromSurface( sdl_renderer, loadedSurface );
-        if( newTexture == NULL )
-        {
-            printf( "Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
-        }
-
-        //Get rid of old loaded surface
-        SDL_FreeSurface( loadedSurface );
+      printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
     }
 
-    return newTexture;
+    //Get rid of old loaded surface
+    SDL_FreeSurface(loadedSurface);
+  }
+
+  return newTexture;
 }
 
 void Renderer::draw_rectangle(int x, int y, int width, int height)
@@ -191,7 +193,7 @@ void Renderer::draw_score_area_background()
   draw_rectangle(SCORE_AREA_LEFT, 0, SCORE_AREA_BOTTOM, SCORE_AREA_RIGHT);
 }
 
-void Renderer::draw_image(int x, int y, SDL_Texture* image)
+void Renderer::draw_image(int x, int y, SDL_Texture *image)
 {
   SDL_Rect rect;
   rect.x = 0;
@@ -199,5 +201,25 @@ void Renderer::draw_image(int x, int y, SDL_Texture* image)
   rect.w = GAME_AREA_RIGHT;
   rect.h = GAME_AREA_BOTTOM;
 
-   SDL_RenderCopy( sdl_renderer, image, NULL, &rect );
+  SDL_RenderCopy(sdl_renderer, image, NULL, &rect);
+}
+
+void Renderer::draw_current_block(Game &game)
+{
+  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF); // orange
+
+  std::shared_ptr<Block> block = game.CurrentBlock;
+  Square **squares = block.get()->GetSquares();
+
+  for (int i = 0; i < 4; ++i)
+  {
+    int center_x = squares[i]->getCenter_x();
+    int center_y = squares[i]->getCenter_y();
+    SDL_Rect rect = {
+        center_x - SQUARES_MEDIAN + 1,
+        center_y - SQUARES_MEDIAN + 1,
+        SQUARES_MEDIAN * 2 - 2,
+        SQUARES_MEDIAN * 2 - 2};
+    SDL_RenderFillRect(sdl_renderer, &rect);
+  }
 }

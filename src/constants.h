@@ -46,3 +46,4 @@ define constants
 #define SPEED_Y 400
 
 #define BLOCK_COLORS 5
+#define BLOCK_TYPES 5

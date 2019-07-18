@@ -34,5 +34,5 @@ enum BlockColors{
 	Orange,
 	Gray,
 	Green
-}
+};
 #endif

@@ -1,18 +1,19 @@
+#pragma once
+
 #include <SDL.h>
 #include "enums.h"
 
 class Square
 {
 public:
-	Square(int center_x, int center_y, BlockColors color):
-			center_x(center_x),
-      center_y(center_y),
+	Square(int cx, int cy, BlockColors color):
+			center_x(cx),
+      center_y(cy),
       color(color){};
 
 	~Square(void);
 
 public:
-	void Draw(SDL_Renderer* renderer);
 	void Move(Directions dir);
 
 public:

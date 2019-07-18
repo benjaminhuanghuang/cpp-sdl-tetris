@@ -106,14 +106,6 @@ void Block::SetupBlock(int x, int y, BlockColors color)
 	}
 }
 
-void Block::DrawSquares(SDL_Renderer* renderer)
-{
-	for (int i=0; i<4; ++i)
-	{
-		squares[i]->Draw(renderer);
-	}
-}
-
 void Block::Move(Directions dir)
 {
 	switch (dir)

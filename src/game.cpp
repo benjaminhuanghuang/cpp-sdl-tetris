@@ -1,12 +1,27 @@
 #include <iostream>
 #include "SDL.h"
 #include "game.h"
+#include "constants.h"
+#include "enums.h"
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
     : engine(dev()),
-      random_w(0, static_cast<int>(grid_width)),
-      random_h(0, static_cast<int>(grid_height))
+      random_color(0, static_cast<int>(BLOCK_COLORS)),
+      random_type(0, static_cast<int>(BLOCK_TYPES))
 {
+}
+
+void Game::Init()
+{
+  // BlockColors color = (BlockColors)(random_color(engine));
+  // BlockTypes type = (BlockTypes)(random_type(engine));
+  // auto b = new Block(BLOCK_START_X, BLOCK_START_Y, type, color);
+	// CurrentBlock = std::make_shared<Block>(b);
+	
+  // color = (BlockColors)(random_color(engine));
+  // type = (BlockTypes)(random_type(engine));
+  // b = new Block(NEXT_BLOCK_X, NEXT_BLOCK_Y, type, color);
+	// NextBlock = std::make_shared<Block>(b);
 }
 
 void Game::Run(Controller const &controller,

@@ -5,6 +5,7 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <SDL_image.h>
+#include "enums.h"
 
 // forward declarations to avoid include cycles
 class Game;
@@ -35,6 +36,8 @@ class Renderer {
   void draw_image(int x, int y, SDL_Texture* image);
   void draw_game_area_background();
   void draw_score_area_background();
+  void draw_current_block(Game &game);
+  void draw_square(int center_x, int center_y, BlockColors color);
 
   const std::size_t screen_width;
   const std::size_t screen_height;
