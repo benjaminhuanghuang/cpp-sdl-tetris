@@ -22,7 +22,9 @@ public:
 
 	void setCenter_x(int x) { center_x = x; }
 	void setCenter_y(int y) { center_y = y; }
+
 	void setColor(BlockColors c) { color = c; }
+	BlockColors getColor(){ return color ; }
 
 private:
 	int center_x;				

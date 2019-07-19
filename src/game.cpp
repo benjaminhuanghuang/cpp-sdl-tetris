@@ -77,15 +77,11 @@ void Game::Run(Controller const &controller,
 	}
 }
 
-// Update data
+/*
+	Game logic
+	Drop the current block
+ */
 void Game::update()
-{
-	if (gameStatus == GameStatus::RUNNING)
-	{
-	}
-}
-
-void Game::blockFall()
 {
 	static int GameBlock_down_counter = 0;
 
@@ -119,8 +115,17 @@ void Game::blockFall()
 	}
 }
 
+
 void Game::finishCurrentBlock()
 {
+	// Move the block squares to game squares
+	std::array<std::shared_ptr<Square>, 4> squares = CurrentBlock->GetSquares();
+	
+	for (int i=0; i<4; ++i)
+	{
+		Squares.push_back(squares[i]);
+	}
+
 	createNewBlock();
 
 	int completeNums = calcCompleteRows();

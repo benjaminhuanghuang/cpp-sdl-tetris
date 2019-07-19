@@ -97,10 +97,7 @@ void Renderer::Render(Game &game)
   draw_current_block(game);
 
   //-- Render blocks
-  // for (int i=0; i<GameSquares.size(); ++i)
-  // {
-  // 	GameSquares[i]->DrawToRenderer(renderer);
-  // }
+  draw_squares(game);
 
   // Render score area
   draw_score_area_background();
@@ -245,6 +242,26 @@ void Renderer::draw_next_block(Game &game)
     SDL_RenderFillRect(sdl_renderer, &rect);
   }
 }
+
+void Renderer::draw_squares(Game &game)
+{
+  std::vector<std::shared_ptr<Square>> squares = game.Squares;
+  
+  for (auto square: squares)
+  {
+    set_color(square.get()->getColor());
+  
+    int center_x = square->getCenter_x();
+    int center_y = square->getCenter_y();
+    SDL_Rect rect = {
+        center_x - SQUARES_MEDIAN + 1,
+        center_y - SQUARES_MEDIAN + 1,
+        SQUARES_MEDIAN * 2 - 2,
+        SQUARES_MEDIAN * 2 - 2};
+    SDL_RenderFillRect(sdl_renderer, &rect);
+  }
+}
+
 void Renderer::set_color(BlockColors color)
 {
   switch (color)
