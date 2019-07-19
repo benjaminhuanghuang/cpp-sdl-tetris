@@ -209,7 +209,7 @@ void Renderer::draw_current_block(Game &game)
   SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF); // orange
 
   std::shared_ptr<Block> block = game.CurrentBlock;
-  Square **squares = block.get()->GetSquares();
+  std::array<std::shared_ptr<Square>, 4> squares = block.get()->GetSquares();
   set_color(block.get()->getBlockColor());
 
   for (int i = 0; i < 4; ++i)
@@ -229,7 +229,7 @@ void Renderer::draw_next_block(Game &game)
 {
   std::shared_ptr<Block> block = game.NextBlock;
   
-  Square **squares = block.get()->GetSquares();
+  std::array<std::shared_ptr<Square>, 4> squares = block.get()->GetSquares();
 
   set_color(block.get()->getBlockColor());
 

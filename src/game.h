@@ -48,17 +48,17 @@ private:
   std::uniform_int_distribution<int> random_color;
   std::uniform_int_distribution<int> random_type;
 
-  bool canChangeToPosition(std::vector<SDL_Point> & positions);
+  bool isPositionAvailable(std::vector<SDL_Point> & positions);
   void blockFall();
-  int calcCompleteRows();
+  int  calcCompleteRows();
   void finishCurrentBlock();
   void createNewBlock();
   
   int score{0};
   int level{1};
-  int BlockSpeed = INITIAL_SPEED;	
+  int blockSpeed{INITIAL_SPEED};
 
-  void Update();
+  void update();
 };
 
 #endif

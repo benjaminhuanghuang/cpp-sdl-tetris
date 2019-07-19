@@ -48,7 +48,7 @@ void Game::Run(Controller const &controller,
     /*
     game logic
      */
-    Update();
+    update();
 
     renderer.Render(*this);
 
@@ -78,7 +78,7 @@ void Game::Run(Controller const &controller,
 }
 
 // Update data
-void Game::Update()
+void Game::update()
 {
   if (gameStatus == GameStatus::RUNNING)
   {
@@ -93,18 +93,18 @@ void Game::blockFall()
   static int Slide_counter = SLIDE_TIME;
 
 	GameBlock_down_counter++;
-	if (GameBlock_down_counter >= BlockSpeed)
+	if (GameBlock_down_counter >= blockSpeed)
 	{
     std::vector<SDL_Point> positions = CurrentBlock.get()->GetMoveDownPositions();
-		if (canChangeToPosition(positions))
+		if (isPositionAvailable(positions))
 		{
 			CurrentBlock.get()->Move(Directions::DOWN);
 			GameBlock_down_counter = 0;
 		}
 	}
 
-	std::vector<SDL_Point> positions = CurrentBlock.get()->GetMoveDownPositions();
-	if (!canChangeToPosition(positions))
+	std::vector<SDL_Point> nextPos = CurrentBlock.get()->GetMoveDownPositions();
+	if (!isPositionAvailable(nextPos))
 	{
 		Slide_counter--;
 	}
@@ -122,13 +122,7 @@ void Game::blockFall()
 
 void Game::finishCurrentBlock()
 {
-  Square** squares = CurrentBlock->GetSquares();
-	for (int i=0; i<4; ++i)
-	{
-		Squares.push_back(std::make_shared(squares[i]));
-	}
-
-	createNewBlock();
+  createNewBlock();
 
 	int completeNums = calcCompleteRows();
 
@@ -139,7 +133,7 @@ void Game::finishCurrentBlock()
     if (score >= level * SCORE_PRE_LEVEL)
 		{
 			level++;
-			BlockSpeed -= SPEED_CHANGE;
+			blockSpeed -= SPEED_CHANGE;
 		}
 	}
 
@@ -177,7 +171,6 @@ int Game::calcCompleteRows()
 			{
 				if (((Squares[i]->getCenter_y() - topLine) / rowSize) == line)
 				{
-					delete Squares[i].reset;
 					Squares.erase( Squares.begin() + i);
 					i--;
 				}
@@ -214,7 +207,8 @@ void Game::createNewBlock()
   NextBlock = std::make_shared<Block>(NEXT_BLOCK_X, NEXT_BLOCK_Y, type, color);
 }
 
-bool Game::canChangeToPosition(std::vector<SDL_Point> & positions)
+//
+bool Game::isPositionAvailable(std::vector<SDL_Point> & positions)
 {
 	for (int i=0; i<4; ++i)
 	{
@@ -240,26 +234,30 @@ bool Game::canChangeToPosition(std::vector<SDL_Point> & positions)
 	return true;
 }
 
-void Game::SetBlockHorizontalSpeed()
-{
-  return;
-}
+
 
 void Game::RotateBlock()
 {
-  return;
+	std::vector<SDL_Point> rotatedPos = CurrentBlock.get()->GetRotatedPositions();
+  if(isPositionAvailable(rotatedPos))
+	{
+		CurrentBlock->Rotate();
+	}
 }
+
 void Game::SpeedUpBlockVertical(bool flag)
 {
   return;
 }
+
 void Game::Pause()
 {
-  return;
+  gameStatus = GameStatus::PAUSED;
 }
+
 void Game::Resume()
 {
-  return;
+  gameStatus = GameStatus::RUNNING;
 }
 
 void Game::Quit()

@@ -1,7 +1,10 @@
 
 #pragma once
 #include <vector>
+#include <array>
 #include "SDL.h"
+#include "enums.h"
+#include "square.h"
 
 class Block
 {
@@ -21,12 +24,12 @@ public:
 	std::vector<SDL_Point> GetMoveDownPositions();
 	BlockTypes getBlockType() const;
 	BlockColors getBlockColor() const;
-	Square **GetSquares();
+	std::array<std::shared_ptr<Square>, 4> GetSquares();
 
 private:
 	int center_x;
 	int center_y;
 	BlockTypes type;
 	BlockColors color;
-	Square *squares[4];
+	std::array<std::shared_ptr<Square>, 4> squares;
 };
