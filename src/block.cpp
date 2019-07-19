@@ -184,6 +184,11 @@ BlockTypes Block::getBlockType() const
 	return type;
 }
 
+BlockColors Block::getBlockColor() const
+{
+	return color;
+}
+
 Block::~Block(void)
 {
 	for (int i=0; i<4; ++i)

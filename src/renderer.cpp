@@ -95,7 +95,7 @@ void Renderer::Render(Game &game)
   draw_game_area_background();
 
   draw_current_block(game);
-  
+
   //-- Render blocks
   // for (int i=0; i<GameSquares.size(); ++i)
   // {
@@ -106,7 +106,7 @@ void Renderer::Render(Game &game)
   draw_score_area_background();
 
   draw_next_block(game);
-  
+
   //-- Render infromation
   draw_text("NEXT SQUARE:", NEXT_BLOCK_X - 95, (NEXT_BLOCK_Y - 115));
 
@@ -210,6 +210,7 @@ void Renderer::draw_current_block(Game &game)
 
   std::shared_ptr<Block> block = game.CurrentBlock;
   Square **squares = block.get()->GetSquares();
+  set_color(block.get()->getBlockColor());
 
   for (int i = 0; i < 4; ++i)
   {
@@ -226,10 +227,11 @@ void Renderer::draw_current_block(Game &game)
 
 void Renderer::draw_next_block(Game &game)
 {
-  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF); // orange
-
   std::shared_ptr<Block> block = game.NextBlock;
+  
   Square **squares = block.get()->GetSquares();
+
+  set_color(block.get()->getBlockColor());
 
   for (int i = 0; i < 4; ++i)
   {
@@ -245,5 +247,22 @@ void Renderer::draw_next_block(Game &game)
 }
 void Renderer::set_color(BlockColors color)
 {
-
+  switch (color)
+  {
+  case BlockColors::Blue:
+    SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0x00, 0xFF, 0xFF);
+    break;
+  case BlockColors::Orange:
+    SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF);
+    break;
+  case BlockColors::Gray:
+    SDL_SetRenderDrawColor(sdl_renderer, 0xCC, 0xCC, 0xBB, 0xFF);
+    break;
+  case BlockColors::Green:
+    SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0xFF, 0xFF, 0xFF);
+    break;
+  default:
+    SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);  // red
+    break;
+  }
 }

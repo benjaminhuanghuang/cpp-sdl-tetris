@@ -33,6 +33,7 @@ enum BlockColors{
 	Blue,
 	Orange,
 	Gray,
-	Green
+	Green,
+	Red
 };
 #endif

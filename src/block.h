@@ -18,7 +18,7 @@ public:
 	void Rotate();
 	int *GetRotatedPositions();
 	BlockTypes getBlockType() const;
-
+	BlockColors getBlockColor() const;
 	Square **GetSquares();
 
 private:
