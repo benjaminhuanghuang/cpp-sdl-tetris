@@ -189,7 +189,7 @@ void Renderer::draw_game_area_background()
 void Renderer::draw_score_area_background()
 {
   // SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF); // orange
-  SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0x00, 0xFF, 0xFF);
+  SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0x00, 0x10, 0xFF);
   draw_rectangle(SCORE_AREA_LEFT, 0, SCORE_AREA_BOTTOM, SCORE_AREA_RIGHT);
 }
 

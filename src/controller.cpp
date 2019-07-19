@@ -13,35 +13,26 @@ void Controller::HandleInput(Game &game) const
     {
       game.Quit();
     }
-    else if (e.type == SDL_KEYUP)
-    {
-      switch (e.key.keysym.sym)
-      {
-      case SDLK_DOWN:
-        break;
-
-      case SDLK_LEFT:
-        break;
-
-      case SDLK_RIGHT:
-        break;
-      }
-    }
     else if (e.type == SDL_KEYDOWN)
     {
+      // SDL_KEYDOWN is keep firing when the key is down
       switch (e.key.keysym.sym)
       {
       case SDLK_DOWN:
-
         break;
 
       case SDLK_LEFT:
+        game.MoveBlock(Directions::LEFT);
         break;
 
       case SDLK_RIGHT:
+        game.MoveBlock(Directions::RIGHT);
+        break;
+        
+      case SDLK_SPACE:
+        game.RotateBlock();
         break;
       }
     }
   }
 }
-

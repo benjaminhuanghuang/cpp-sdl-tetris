@@ -6,96 +6,95 @@
 #include "enums.h"
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
-    : engine(dev()),
-      random_color(0, static_cast<int>(BLOCK_COLORS)),
-      random_type(0, static_cast<int>(BLOCK_TYPES))
+		: engine(dev()),
+			random_color(0, static_cast<int>(BLOCK_COLORS)),
+			random_type(0, static_cast<int>(BLOCK_TYPES))
 {
 }
 
 void Game::Init()
 {
-  BlockColors color = (BlockColors)(random_color(engine));
-  BlockTypes type = (BlockTypes)(random_type(engine));
-  CurrentBlock = std::make_shared<Block>(BLOCK_START_X, BLOCK_START_Y, type, color);
+	BlockColors color = (BlockColors)(random_color(engine));
+	BlockTypes type = (BlockTypes)(random_type(engine));
+	CurrentBlock = std::make_shared<Block>(BLOCK_START_X, BLOCK_START_Y, type, color);
 
-  color = (BlockColors)(random_color(engine));
-  type = (BlockTypes)(random_type(engine));
-  NextBlock = std::make_shared<Block>(NEXT_BLOCK_X, NEXT_BLOCK_Y, type, color);
+	color = (BlockColors)(random_color(engine));
+	type = (BlockTypes)(random_type(engine));
+	NextBlock = std::make_shared<Block>(NEXT_BLOCK_X, NEXT_BLOCK_Y, type, color);
 }
 
 void Game::Run(Controller const &controller,
-               Renderer &renderer,
-               std::size_t target_frame_duration)
+							 Renderer &renderer,
+							 std::size_t target_frame_duration)
 {
-  Uint32 title_timestamp = SDL_GetTicks();
-  Uint32 frame_start;
-  Uint32 frame_end;
-  Uint32 frame_duration;
-  int frame_count = 0;
-  bool running = true;
+	Uint32 title_timestamp = SDL_GetTicks();
+	Uint32 frame_start;
+	Uint32 frame_end;
+	Uint32 frame_duration;
+	int frame_count = 0;
+	bool running = true;
 
-  // Game loop
-  while (gameStatus != GameStatus::QUIT)
-  {
-    // Print game status
-    //std::cout << "Game status: " << static_cast<std::underlying_type<GameStatus>::type>(gameStatus) << std::endl;
+	// Game loop
+	while (gameStatus != GameStatus::QUIT)
+	{
+		// Print game status
+		//std::cout << "Game status: " << static_cast<std::underlying_type<GameStatus>::type>(gameStatus) << std::endl;
 
-    frame_start = SDL_GetTicks();
+		frame_start = SDL_GetTicks();
 
-    // Input, Update, Render - the main game loop.
-    controller.HandleInput(*this);
+		// Input, Update, Render - the main game loop.
+		controller.HandleInput(*this);
 
-    /*
+		/*
     game logic
      */
-    update();
+		update();
 
-    renderer.Render(*this);
+		renderer.Render(*this);
 
-    frame_end = SDL_GetTicks();
+		frame_end = SDL_GetTicks();
 
-    // Keep track of how long each loop through the input/update/render cycle
-    // takes.
-    frame_count++;
-    frame_duration = frame_end - frame_start;
+		// Keep track of how long each loop through the input/update/render cycle
+		// takes.
+		frame_count++;
+		frame_duration = frame_end - frame_start;
 
-    // After every second, update the window title.
-    if (frame_end - title_timestamp >= 1000)
-    {
-      renderer.UpdateWindowTitle(frame_count);
-      frame_count = 0;
-      title_timestamp = frame_end;
-    }
+		// After every second, update the window title.
+		if (frame_end - title_timestamp >= 1000)
+		{
+			renderer.UpdateWindowTitle(frame_count);
+			frame_count = 0;
+			title_timestamp = frame_end;
+		}
 
-    // If the time for this frame is too small (i.e. frame_duration is
-    // smaller than the target ms_per_frame), delay the loop to
-    // achieve the correct frame rate.
-    if (frame_duration < target_frame_duration)
-    {
-      SDL_Delay(target_frame_duration - frame_duration);
-    }
-  }
+		// If the time for this frame is too small (i.e. frame_duration is
+		// smaller than the target ms_per_frame), delay the loop to
+		// achieve the correct frame rate.
+		if (frame_duration < target_frame_duration)
+		{
+			SDL_Delay(target_frame_duration - frame_duration);
+		}
+	}
 }
 
 // Update data
 void Game::update()
 {
-  if (gameStatus == GameStatus::RUNNING)
-  {
-    
-  }
+	if (gameStatus == GameStatus::RUNNING)
+	{
+	}
 }
 
 void Game::blockFall()
 {
 	static int GameBlock_down_counter = 0;
-	
-  static int Slide_counter = SLIDE_TIME;
+
+	static int Slide_counter = SLIDE_TIME;
 
 	GameBlock_down_counter++;
 	if (GameBlock_down_counter >= blockSpeed)
 	{
-    std::vector<SDL_Point> positions = CurrentBlock.get()->GetMoveDownPositions();
+		std::vector<SDL_Point> positions = CurrentBlock.get()->GetMoveDownPositions();
 		if (isPositionAvailable(positions))
 		{
 			CurrentBlock.get()->Move(Directions::DOWN);
@@ -112,17 +111,17 @@ void Game::blockFall()
 	{
 		Slide_counter = SLIDE_TIME;
 	}
-	
+
 	if (Slide_counter == 0)
 	{
 		Slide_counter = SLIDE_TIME;
-	  finishCurrentBlock();
+		finishCurrentBlock();
 	}
 }
 
 void Game::finishCurrentBlock()
 {
-  createNewBlock();
+	createNewBlock();
 
 	int completeNums = calcCompleteRows();
 
@@ -130,7 +129,7 @@ void Game::finishCurrentBlock()
 	{
 		score += SCORE_PRE_LINE * completeNums;
 		// next level
-    if (score >= level * SCORE_PRE_LEVEL)
+		if (score >= level * SCORE_PRE_LEVEL)
 		{
 			level++;
 			blockSpeed -= SPEED_CHANGE;
@@ -138,23 +137,21 @@ void Game::finishCurrentBlock()
 	}
 
 	// is Fail?
-
 }
-
 
 int Game::calcCompleteRows()
 {
 	int bottomLine = GAME_AREA_BOTTOM - SQUARES_MEDIAN;
 	int topLine = SQUARES_MEDIAN;
-	
-  int rowSize = SQUARES_MEDIAN * 2;
-	
-  int squares_per_row[SQUARES_ROWS];
-	
+
+	int rowSize = SQUARES_MEDIAN * 2;
+
+	int squares_per_row[SQUARES_ROWS];
+
 	int row = 0, completeRows = 0;
 
 	// calculate how many squares in eash row
-	for (int i=0; i< Squares.size(); ++i)
+	for (int i = 0; i < Squares.size(); ++i)
 	{
 		int center_y = Squares[i]->getCenter_y();
 		row = (center_y - topLine) / rowSize;
@@ -162,25 +159,25 @@ int Game::calcCompleteRows()
 	}
 
 	// Erase any full lines
-	for (int line=0; line<SQUARES_ROWS; ++line)
+	for (int line = 0; line < SQUARES_ROWS; ++line)
 	{
-		if (squares_per_row[line] == SQUARES_PER_ROW)  // is full
+		if (squares_per_row[line] == SQUARES_PER_ROW) // is full
 		{
 			completeRows++;
-			for (int i=0; i< Squares.size(); ++i)
+			for (int i = 0; i < Squares.size(); ++i)
 			{
 				if (((Squares[i]->getCenter_y() - topLine) / rowSize) == line)
 				{
-					Squares.erase( Squares.begin() + i);
+					Squares.erase(Squares.begin() + i);
 					i--;
 				}
 			}
 		}
 	}
-  // move the sqares
-	for (int i=0; i< Squares.size(); ++i)
+	// move the sqares
+	for (int i = 0; i < Squares.size(); ++i)
 	{
-		for (int line=0; line<21; ++line)
+		for (int line = 0; line < 21; ++line)
 		{
 			if (squares_per_row[line] == SQUARES_PER_ROW)
 			{
@@ -202,30 +199,30 @@ void Game::createNewBlock()
 	CurrentBlock = NextBlock;
 	CurrentBlock->SetupBlock(BLOCK_START_X, BLOCK_START_Y, NextBlock->getBlockColor());
 
-  auto color = (BlockColors)(random_color(engine));
-  auto type = (BlockTypes)(random_type(engine));
-  NextBlock = std::make_shared<Block>(NEXT_BLOCK_X, NEXT_BLOCK_Y, type, color);
+	auto color = (BlockColors)(random_color(engine));
+	auto type = (BlockTypes)(random_type(engine));
+	NextBlock = std::make_shared<Block>(NEXT_BLOCK_X, NEXT_BLOCK_Y, type, color);
 }
 
 //
-bool Game::isPositionAvailable(std::vector<SDL_Point> & positions)
+bool Game::isPositionAvailable(std::vector<SDL_Point> &positions)
 {
-	for (int i=0; i<4; ++i)
+	for (int i = 0; i < 4; ++i)
 	{
 		if (positions[i].x < GAME_AREA_LEFT || positions[i].x > GAME_AREA_RIGHT)
 		{
 			return false;
 		}
-		
-    if (positions[i].y > GAME_AREA_BOTTOM)
+
+		if (positions[i].y > GAME_AREA_BOTTOM)
 		{
 			return false;
 		}
-	
-  	for (int j=0; j< Squares.size(); ++j)
+
+		for (int j = 0; j < Squares.size(); ++j)
 		{
 			if ((abs(positions[i].x - Squares[j]->getCenter_x()) < SQUARES_SIZE) ||
-				(abs(positions[i].y - Squares[j]->getCenter_y()) < SQUARES_SIZE))
+					(abs(positions[i].y - Squares[j]->getCenter_y()) < SQUARES_SIZE))
 			{
 				return false;
 			}
@@ -234,36 +231,54 @@ bool Game::isPositionAvailable(std::vector<SDL_Point> & positions)
 	return true;
 }
 
-
-
 void Game::RotateBlock()
 {
 	std::vector<SDL_Point> rotatedPos = CurrentBlock.get()->GetRotatedPositions();
-  if(isPositionAvailable(rotatedPos))
+	if (isPositionAvailable(rotatedPos))
 	{
 		CurrentBlock->Rotate();
 	}
 }
 
+void Game::MoveBlock(Directions dir)
+{
+	if (dir == Directions::LEFT)
+	{
+		std::vector<SDL_Point> nextPos = CurrentBlock.get()->GetMoveLeftPositions();
+		if (isPositionAvailable(nextPos))
+		{
+			CurrentBlock->Move(dir);
+		}
+	}
+	else if (dir == Directions::RIGHT)
+	{
+		std::vector<SDL_Point> nextPos = CurrentBlock.get()->GetMoveRightPositions();
+		if (isPositionAvailable(nextPos))
+		{
+			CurrentBlock->Move(dir);
+		}
+	}
+}
+
 void Game::SpeedUpBlockVertical(bool flag)
 {
-  return;
+	return;
 }
 
 void Game::Pause()
 {
-  gameStatus = GameStatus::PAUSED;
+	gameStatus = GameStatus::PAUSED;
 }
 
 void Game::Resume()
 {
-  gameStatus = GameStatus::RUNNING;
+	gameStatus = GameStatus::RUNNING;
 }
 
 void Game::Quit()
 {
-  std::cout << "Game quit!\n";
-  gameStatus = GameStatus::QUIT;
+	std::cout << "Game quit!\n";
+	gameStatus = GameStatus::QUIT;
 }
 
 int Game::GetScore() const { return score; }

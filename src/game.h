@@ -32,6 +32,8 @@ public:
   
   void SetBlockHorizontalSpeed();
   void RotateBlock();
+  void MoveBlock(Directions dir);
+  
   void SpeedUpBlockVertical(bool flag);
 
   std::shared_ptr<Block> CurrentBlock;			
