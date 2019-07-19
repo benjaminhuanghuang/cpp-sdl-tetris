@@ -6,6 +6,7 @@
 #include <memory>
 #include <SDL.h>
 #include "enums.h"
+#include "constants.h"
 #include "controller.h"
 #include "renderer.h"
 #include "square.h"
@@ -47,11 +48,17 @@ private:
   std::uniform_int_distribution<int> random_color;
   std::uniform_int_distribution<int> random_type;
 
+  bool canChangeToPosition(std::vector<SDL_Point> & positions);
+  void blockFall();
+  int calcCompleteRows();
+  void finishCurrentBlock();
+  void createNewBlock();
+  
   int score{0};
   int level{1};
+  int BlockSpeed = INITIAL_SPEED;	
 
   void Update();
-
 };
 
 #endif

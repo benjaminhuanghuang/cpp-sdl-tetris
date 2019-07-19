@@ -12,7 +12,7 @@ define constants
 #define GAME_AREA_RIGHT 612
 #define GAME_AREA_BOTTOM WINDOW_HEIGHT
 #define SQUARES_PER_ROW 18 // how many cells per row
-#define SQUARES_PER_COL 21 // how many cells per col
+#define SQUARES_ROWS 21    // how many rows
 #define SQUARES_SIZE 34    //
 #define SQUARES_MEDIAN		17
 
@@ -47,3 +47,6 @@ define constants
 
 #define BLOCK_COLORS 5
 #define BLOCK_TYPES 5
+
+#define INITIAL_SPEED		60				
+#define SPEED_CHANGE		10	

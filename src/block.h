@@ -1,8 +1,7 @@
 
 #pragma once
-
-#include "square.h"
-#include "enums.h"
+#include <vector>
+#include "SDL.h"
 
 class Block
 {
@@ -16,7 +15,10 @@ public:
 	void SetupBlock(int x, int y, BlockColors color);
 	void Move(Directions dir);
 	void Rotate();
-	int *GetRotatedPositions();
+	std::vector<SDL_Point> GetRotatedPositions();
+	std::vector<SDL_Point> GetMoveLeftPositions();
+	std::vector<SDL_Point> GetMoveRightPositions();
+	std::vector<SDL_Point> GetMoveDownPositions();
 	BlockTypes getBlockType() const;
 	BlockColors getBlockColor() const;
 	Square **GetSquares();
