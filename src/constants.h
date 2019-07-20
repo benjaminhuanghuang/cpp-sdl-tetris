@@ -48,5 +48,5 @@ define constants
 #define BLOCK_COLORS 5
 #define BLOCK_TYPES 5
 
-#define INITIAL_SPEED		60				
+#define INITIAL_SPEED		20			
 #define SPEED_CHANGE		10	

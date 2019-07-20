@@ -18,7 +18,11 @@ void Controller::HandleInput(Game &game) const
       // SDL_KEYDOWN is keep firing when the key is down
       switch (e.key.keysym.sym)
       {
+      case SDLK_RETURN:
+        game.Init();
+        break;
       case SDLK_DOWN:
+        game.SetSpeedUp(true);
         break;
 
       case SDLK_LEFT:
@@ -31,6 +35,16 @@ void Controller::HandleInput(Game &game) const
         
       case SDLK_SPACE:
         game.RotateBlock();
+        break;
+      }
+    }
+    else if (e.type == SDL_KEYUP)
+    {
+      // SDL_KEYDOWN is keep firing when the key is down
+      switch (e.key.keysym.sym)
+      {
+      case SDLK_DOWN:
+        game.SetSpeedUp(false);
         break;
       }
     }

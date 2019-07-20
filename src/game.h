@@ -28,6 +28,7 @@ public:
   void Start();
   void Pause();
   void Resume();
+  void SetSpeedUp(bool val){speedingUp = val;};
   void Quit();
   
   void SetBlockHorizontalSpeed();
@@ -59,6 +60,7 @@ private:
   int score{0};
   int level{1};
   int blockSpeed{INITIAL_SPEED};
+  bool speedingUp{false};
 };
 
 #endif

@@ -14,6 +14,10 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
 
 void Game::Init()
 {
+	score = 0;
+	level = 1;
+	blockSpeed = INITIAL_SPEED;
+
 	BlockColors color = (BlockColors)(random_color(engine));
 	BlockTypes type = (BlockTypes)(random_type(engine));
 	CurrentBlock = std::make_shared<Block>(BLOCK_START_X, BLOCK_START_Y, type, color);
@@ -21,6 +25,12 @@ void Game::Init()
 	color = (BlockColors)(random_color(engine));
 	type = (BlockTypes)(random_type(engine));
 	NextBlock = std::make_shared<Block>(NEXT_BLOCK_X, NEXT_BLOCK_Y, type, color);
+
+	for (int i = 0; i < Squares.size(); ++i)
+	{
+
+		Squares.erase(Squares.begin() + i);
+	}
 }
 
 void Game::Run(Controller const &controller,
@@ -83,12 +93,13 @@ void Game::Run(Controller const &controller,
  */
 void Game::update()
 {
+	std::cout << "Is speedingUp : " << speedingUp << std::endl;
 	static int GameBlock_down_counter = 0;
 
 	static int Slide_counter = SLIDE_TIME;
 
 	GameBlock_down_counter++;
-	if (GameBlock_down_counter >= blockSpeed)
+	if (GameBlock_down_counter >= blockSpeed || speedingUp)
 	{
 		std::vector<SDL_Point> positions = CurrentBlock.get()->GetMoveDownPositions();
 		if (isPositionAvailable(positions))
@@ -115,13 +126,12 @@ void Game::update()
 	}
 }
 
-
 void Game::finishCurrentBlock()
 {
 	// Move the block squares to game squares
 	std::array<std::shared_ptr<Square>, 4> squares = CurrentBlock->GetSquares();
-	
-	for (int i=0; i<4; ++i)
+
+	for (int i = 0; i < 4; ++i)
 	{
 		Squares.push_back(squares[i]);
 	}
@@ -153,23 +163,23 @@ int Game::removeCompleteRows()
 
 	int row = 0, completeRows = 0;
 
-	// calculate how many squares in eash row
+	// calculate how many squares in eash row, from top to bottom
 	for (int i = 0; i < Squares.size(); ++i)
 	{
 		int center_y = Squares[i]->getCenter_y();
-		row = (center_y - topLine) / rowSize;
+		row = (center_y - topLine) / rowSize; // from top to bottom
 		squares_per_row[row]++;
 	}
 
-	// Erase any full lines
-	for (int line = 0; line < SQUARES_ROWS; ++line)
+	// Erase any full lines, from bottom to top
+	for (int row = SQUARES_ROWS; row >= 0; row--)
 	{
-		if (squares_per_row[line] == SQUARES_PER_ROW) // is full
+		if (squares_per_row[row] == SQUARES_PER_ROW) // is full
 		{
 			completeRows++;
 			for (int i = 0; i < Squares.size(); ++i)
 			{
-				if (((Squares[i]->getCenter_y() - topLine) / rowSize) == line)
+				if (((Squares[i]->getCenter_y() - topLine) / rowSize) == row)
 				{
 					Squares.erase(Squares.begin() + i);
 					i--;
