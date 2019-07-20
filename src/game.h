@@ -52,7 +52,7 @@ private:
 
   void update();
   bool isPositionAvailable(std::vector<SDL_Point> & positions);
-  int  calcCompleteRows();
+  int  removeCompleteRows();
   void finishCurrentBlock();
   void createNewBlock();
   

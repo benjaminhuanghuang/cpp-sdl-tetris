@@ -128,7 +128,7 @@ void Game::finishCurrentBlock()
 
 	createNewBlock();
 
-	int completeNums = calcCompleteRows();
+	int completeNums = removeCompleteRows();
 
 	if (completeNums > 0)
 	{
@@ -144,13 +144,11 @@ void Game::finishCurrentBlock()
 	// is Fail?
 }
 
-int Game::calcCompleteRows()
+int Game::removeCompleteRows()
 {
-	int bottomLine = GAME_AREA_BOTTOM - SQUARES_MEDIAN;
 	int topLine = SQUARES_MEDIAN;
 
-	int rowSize = SQUARES_MEDIAN * 2;
-
+	int rowSize = SQUARES_SIZE;
 	int squares_per_row[SQUARES_ROWS];
 
 	int row = 0, completeRows = 0;
@@ -182,7 +180,7 @@ int Game::calcCompleteRows()
 	// move the sqares
 	for (int i = 0; i < Squares.size(); ++i)
 	{
-		for (int line = 0; line < 21; ++line)
+		for (int line = 0; line < SQUARES_ROWS; ++line)
 		{
 			if (squares_per_row[line] == SQUARES_PER_ROW)
 			{

@@ -97,7 +97,7 @@ void Renderer::Render(Game &game)
   draw_current_block(game);
 
   //-- Render blocks
-  draw_squares(game);
+  draw_squares(game); 
 
   // Render score area
   draw_score_area_background();
