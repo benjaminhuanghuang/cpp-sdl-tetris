@@ -21,10 +21,7 @@ define constants
 #define SCORE_PRE_LINE 125   //
 #define SCORE_PRE_LEVEL 1300 //
 
-#define BLOCK_DROP_SPEED 60
-#define BLOCK_DROP_SPEED_UP 10 // Spead up when go to next level
-
-#define SLIDE_TIME 15 // time can move the block after it touch bottom
+#define SLIDE_TIME 15 // (frames) time can move the block after it touch bottom
 
 // Block location
 #define BLOCK_START_X 300
@@ -48,5 +45,5 @@ define constants
 #define BLOCK_COLORS 5
 #define BLOCK_TYPES 5
 
-#define INITIAL_SPEED		20			
-#define SPEED_CHANGE		10	
+#define FRAMES_PER_DROP		60			
+#define SPEED_CHANGE		10	// Spead up when go to next level

@@ -97,7 +97,7 @@ void Renderer::Render(Game &game)
   draw_current_block(game);
 
   //-- Render blocks
-  draw_squares(game); 
+  draw_squares(game);
 
   // Render score area
   draw_score_area_background();
@@ -115,6 +115,10 @@ void Renderer::Render(Game &game)
   sprintf(cur_level, "CURRENT LEVEL: %d", game.GetLevel());
   draw_text(cur_level, LEVEL_POSITION_X, LEVEL_POSITION_Y);
 
+  if (game.GetDrawGrid())
+  {
+    draw_grid();
+  }
   SDL_RenderPresent(sdl_renderer);
 }
 
@@ -185,7 +189,6 @@ void Renderer::draw_game_area_background()
 
 void Renderer::draw_score_area_background()
 {
-  // SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF); // orange
   SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0x00, 0x10, 0xFF);
   draw_rectangle(SCORE_AREA_LEFT, 0, SCORE_AREA_BOTTOM, SCORE_AREA_RIGHT);
 }
@@ -225,7 +228,7 @@ void Renderer::draw_current_block(Game &game)
 void Renderer::draw_next_block(Game &game)
 {
   std::shared_ptr<Block> block = game.NextBlock;
-  
+
   std::array<std::shared_ptr<Square>, 4> squares = block.get()->GetSquares();
 
   set_color(block.get()->getBlockColor());
@@ -246,11 +249,11 @@ void Renderer::draw_next_block(Game &game)
 void Renderer::draw_squares(Game &game)
 {
   std::vector<std::shared_ptr<Square>> squares = game.Squares;
-  
-  for (auto square: squares)
+
+  for (auto square : squares)
   {
     set_color(square.get()->getColor());
-  
+
     int center_x = square->getCenter_x();
     int center_y = square->getCenter_y();
     SDL_Rect rect = {
@@ -279,7 +282,19 @@ void Renderer::set_color(BlockColors color)
     SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0xFF, 0xFF, 0xFF);
     break;
   default:
-    SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);  // red
+    SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF); // red
     break;
+  }
+}
+void Renderer::draw_grid()
+{
+  int start_y = 0;
+  int end_y = GAME_AREA_BOTTOM;
+  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, SDL_ALPHA_OPAQUE);
+
+  for (int i = 1; i < SQUARES_PER_ROW ; i++)
+  {
+    int x = GAME_AREA_LEFT + i * SQUARES_SIZE - 4;
+    SDL_RenderDrawLine(sdl_renderer, x, start_y, x, end_y);
   }
 }

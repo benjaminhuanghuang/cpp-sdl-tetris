@@ -41,7 +41,7 @@ class Renderer {
   void draw_squares(Game &game);
   void draw_square(int center_x, int center_y, BlockColors color);
   void set_color(BlockColors color);
-  
+  void draw_grid();
 
   const std::size_t screen_width;
   const std::size_t screen_height;
