@@ -22,12 +22,17 @@ This is a starter repo for the Capstone project in the [Udacity C++ Nanodegree P
 1. Clone this repo.
 2. Make a build directory in the top level directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
-4. Run it: `./tetris`.
+4. copy res directory to build directory
+5. Run it: `./tetris`.
 
 
-## Install SDL2 on Mac
-```
-brew install sdl2
-brew install sdl_ttf
-brew install sdl_image
-```
+## How to paly
+| Key         | Description |
+| ----------- | ----------- |
+| <-          | Move the block to the left       |
+| ->          | Move the block to the right        |
+| down        | Spead up the block moving down        |
+| space       | Rotate the blcok        |
+| left-shift  | Show grid         |
+| enter       | Restart the game        |
+| close win   | Quit the game        |

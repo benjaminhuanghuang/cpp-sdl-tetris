@@ -26,6 +26,8 @@ public:
 	BlockColors getBlockColor() const;
 	std::array<std::shared_ptr<Square>, 4> GetSquares();
 
+	int getCenterX() {return center_x;};
+	int getCenterY() {return center_y;};
 private:
 	int center_x;
 	int center_y;

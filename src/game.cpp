@@ -15,6 +15,7 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
 
 void Game::Init()
 {
+	gameStatus = GameStatus::RUNNING;
 	score = 0;
 	level = 1;
 	blockDropFrames = FRAMES_PER_DROP;
@@ -118,8 +119,15 @@ void Game::update()
 
 	if (slide_frames_counter == 0)
 	{
-		slide_frames_counter = SLIDE_TIME;
-		finishCurrentBlock();
+		if (CurrentBlock.get()->getCenterX() == BLOCK_START_X && CurrentBlock.get()->getCenterY() == BLOCK_START_Y)
+		{
+			gameStatus = GameStatus::OVER;
+		}
+		else
+		{
+			slide_frames_counter = SLIDE_TIME;
+			finishCurrentBlock();
+		}
 	}
 }
 
@@ -156,7 +164,7 @@ int Game::removeCompleteRows()
 	int topLine = SQUARES_MEDIAN;
 
 	int rowSize = SQUARES_SIZE;
-	int squares_per_row[SQUARES_ROWS]={0};
+	int squares_per_row[SQUARES_ROWS] = {0};
 
 	int row = 0, completeRows = 0;
 
@@ -169,7 +177,7 @@ int Game::removeCompleteRows()
 	}
 
 	// Erase any full lines, from bottom to top
-	for (int row = SQUARES_ROWS-1; row >= 0; row--)
+	for (int row = SQUARES_ROWS - 1; row >= 0; row--)
 	{
 		if (squares_per_row[row] == SQUARES_PER_ROW) // is full
 		{
@@ -288,7 +296,7 @@ void Game::printCurrentBlock()
 	{
 		for (int j = 0; j < SQUARES_PER_ROW; j++)
 		{
-				printf("%d ", (int)squaresMatrix[i][j]);
+			printf("%d ", (int)squaresMatrix[i][j]);
 		}
 		printf("\n");
 	}
@@ -311,11 +319,11 @@ void Game::printSquares()
 	{
 		for (int j = 0; j < SQUARES_PER_ROW; j++)
 		{
-				printf("%d ", (int)squaresMatrix[i][j]);
+			printf("%d ", (int)squaresMatrix[i][j]);
 		}
 		printf("\n");
 	}
-		printf("===========================\n");
+	printf("===========================\n");
 }
 
 void Game::Pause()

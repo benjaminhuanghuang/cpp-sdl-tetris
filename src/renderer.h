@@ -27,6 +27,7 @@ class Renderer {
   SDL_Renderer* sdl_renderer;
   TTF_Font* font;
   SDL_Texture* bg_game_area;	
+  SDL_Texture* img_game_over;	
 	
   void draw_text(std::string message, int x, int y);
 
@@ -42,6 +43,7 @@ class Renderer {
   void draw_square(int center_x, int center_y, BlockColors color);
   void set_color(BlockColors color);
   void draw_grid();
+  void draw_game_over();
 
   const std::size_t screen_width;
   const std::size_t screen_height;

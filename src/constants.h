@@ -18,8 +18,8 @@ define constants
 
 // Game settings
 #define GAME_LEVELS 5        // How many levels in the game
-#define SCORE_PRE_LINE 125   //
-#define SCORE_PRE_LEVEL 1300 //
+#define SCORE_PRE_LINE 100   //
+#define SCORE_PRE_LEVEL 1000 //
 
 #define SLIDE_TIME 15 // (frames) time can move the block after it touch bottom
 

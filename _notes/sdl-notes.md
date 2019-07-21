@@ -1,3 +1,10 @@
+## Install SDL2 on Mac
+```
+brew install sdl2
+brew install sdl_ttf
+brew install sdl_image
+```
+
 ## Setup cmake for sdl, sdl_ttf, sdl_image
   We need some CMake scripts for finding the SDL2, SDL2_image and SDL2_ttf libraries and headers.
   And tell CMake where to find them, via the CMAKE_MODULE_PATH variable. For example, if you put them in a subdirectory called cmake, then in your root CMakeLists.txt add the line

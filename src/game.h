@@ -37,6 +37,7 @@ public:
 
   void SpeedUpBlockVertical(bool flag);
   bool GetDrawGrid() { return drawgrid; };
+  GameStatus GetStatus() { return gameStatus; };
 
   std::shared_ptr<Block> CurrentBlock;
   std::shared_ptr<Block> NextBlock;

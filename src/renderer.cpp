@@ -63,6 +63,7 @@ Renderer::Renderer(const std::size_t screen_width,
   }
 
   bg_game_area = load_texture("res/bg1.png"); // need sdl_render
+  img_game_over = load_texture("res/gameover.png"); // need sdl_render
 }
 
 Renderer::~Renderer()
@@ -73,6 +74,7 @@ Renderer::~Renderer()
 
   // image
   SDL_DestroyTexture(bg_game_area);
+  SDL_DestroyTexture(img_game_over);
   IMG_Quit();
 
   SDL_DestroyRenderer(sdl_renderer);
@@ -119,6 +121,11 @@ void Renderer::Render(Game &game)
   {
     draw_grid();
   }
+  if (game.GetStatus() == GameStatus::OVER)
+  {
+    draw_game_over();
+  }
+
   SDL_RenderPresent(sdl_renderer);
 }
 
@@ -185,6 +192,11 @@ void Renderer::draw_rectangle(int x, int y, int width, int height)
 void Renderer::draw_game_area_background()
 {
   draw_image(0, 0, bg_game_area);
+}
+
+void Renderer::draw_game_over()
+{
+  draw_image(10, 10, img_game_over);
 }
 
 void Renderer::draw_score_area_background()
@@ -294,7 +306,7 @@ void Renderer::draw_grid()
 
   for (int i = 1; i < SQUARES_PER_ROW ; i++)
   {
-    int x = GAME_AREA_LEFT + i * SQUARES_SIZE - 4;
+    int x = GAME_AREA_LEFT + i * SQUARES_SIZE - 6;
     SDL_RenderDrawLine(sdl_renderer, x, start_y, x, end_y);
   }
 }

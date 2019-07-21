@@ -5,6 +5,7 @@ enum class GameStatus
 {
 	RUNNING,
 	PAUSED,
+	OVER,
 	QUIT
 };
 
